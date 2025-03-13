@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic To-Do App</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #1f1c2c, #928DAB);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .todo-container {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 40px 30px;
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        h2 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: #00f9ff;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="date"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 10px 0 20px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #ccc;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #00f9ff;
+            outline: none;
+            box-shadow: 0 0 10px #00f9ff;
+        }
+
+        button {
+            width: 100%;
+            background: #00f9ff;
+            color: #000;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: #00c4cc;
+            box-shadow: 0 0 15px #00f9ff, 0 0 40px #00f9ff;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        th {
+            background: rgba(0, 249, 255, 0.2);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        tbody tr {
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.01);
+        }
+
+        tr.completed {
+            background: rgba(0, 255, 128, 0.2);
+        }
+
+        tr.pending {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .action-btn {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+
+        .status-btn {
+            background-color: #28a745;
+        }
+
+        .status-btn:hover {
+            background-color: #218838;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .update-btn {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .update-btn:hover {
+            background-color: #e0a800;
+        }
+
+        @media (max-width: 768px) {
+            .todo-container {
+                padding: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form method='POST' action="/add/">
+        {% csrf_token %}
+        <div class="todo-container">
+            <h2>🚀 My Futuristic To-Do</h2>
+            <input type="text" placeholder="Task Title" name="title" required>
+            <textarea placeholder="Task Description" name="description" rows="4" required></textarea>
+            <label for="deadline">Deadline:</label>
+            <input type="date" name="deadline" required>
+            <button type="submit">➕ Add Task</button>
+        </div>
+    </form>
+
+    <div class="todo-container" style="margin-top: 40px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date Added</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Delete</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in tasks %}
+                    {% if i.status %}
+                        <tr class="completed">
+                    {% else %}
+                        <tr class="pending">
+                    {% endif %}
+                        <td>{{i.title}}</td>
+                        <td>{{i.description}}</td>
+                        <td>{{i.date}}</td>
+                        <td>{{i.deadline}}</td>
+                        {% if not i.status %}
+                            <td><a href="/status/{{i.id}}" class="action-btn status-btn">Mark Completed</a></td>
+                        {% else %}
+                            <td><span style="color:#28a745; font-weight:600;">✅ Completed</span></td>
+                        {% endif %}
+                        <td><a href="/delete/{{i.id}}" class="action-btn delete-btn">Delete</a></td>
+                        <td><a href="/update/{{i.id}}" class="action-btn update-btn">Update</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
