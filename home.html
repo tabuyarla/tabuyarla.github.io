@@ -191,7 +191,7 @@
 
 <body>
     <form method='POST' action="/add/">
-        {% csrf_token %}
+       
         <div class="todo-container">
             <h2>🚀 My Futuristic To-Do</h2>
             <input type="text" placeholder="Task Title" name="title" required>
@@ -216,25 +216,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in tasks %}
-                    {% if i.status %}
-                        <tr class="completed">
-                    {% else %}
-                        <tr class="pending">
-                    {% endif %}
-                        <td>{{i.title}}</td>
-                        <td>{{i.description}}</td>
-                        <td>{{i.date}}</td>
-                        <td>{{i.deadline}}</td>
-                        {% if not i.status %}
-                            <td><a href="/status/{{i.id}}" class="action-btn status-btn">Mark Completed</a></td>
-                        {% else %}
-                            <td><span style="color:#28a745; font-weight:600;">✅ Completed</span></td>
-                        {% endif %}
                         <td><a href="/delete/{{i.id}}" class="action-btn delete-btn">Delete</a></td>
                         <td><a href="/update/{{i.id}}" class="action-btn update-btn">Update</a></td>
                     </tr>
-                {% endfor %}
+               
             </tbody>
         </table>
     </div>
