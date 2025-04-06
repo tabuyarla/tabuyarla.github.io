@@ -3,225 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic To-Do App</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
+    <title>Taburani Yarla | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(120deg, #1f1c2c, #928DAB);
-            color: #fff;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 200vh;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .todo-container {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            padding: 40px 30px;
-            max-width: 800px;
-            width: 100%;
-            animation: fadeIn 1s ease-in-out;
+        .logo {
+            font-size: 28px;
+            font-weight: 600;
+            color: #007bff;
+            letter-spacing: 1px;
         }
 
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(-20px);}
-            to {opacity: 1; transform: translateY(0);}
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
         }
 
-        h2 {
-            text-align: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
-            color: #00f9ff;
-            margin-bottom: 25px;
-        }
-
-        input[type="text"],
-        textarea,
-        input[type="date"] {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            padding: 12px;
-            margin: 10px 0 20px;
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
             font-size: 16px;
-            transition: 0.3s;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
-        input::placeholder,
-        textarea::placeholder {
-            color: #ccc;
+        .nav-links a:hover {
+            color: #007bff;
+            transform: scale(1.1) rotate(5deg);
+            text-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
-        input:focus,
-        textarea:focus {
-            border-color: #00f9ff;
-            outline: none;
-            box-shadow: 0 0 10px #00f9ff;
-        }
-
-        button {
-            width: 100%;
-            background: #00f9ff;
-            color: #000;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            color: #007bff;
             cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        button:hover {
-            background: #00c4cc;
-            box-shadow: 0 0 15px #00f9ff, 0 0 40px #00f9ff;
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: center;
-            font-size: 14px;
-            color: #fff;
-        }
-
-        th {
-            background: rgba(0, 249, 255, 0.2);
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        tbody tr {
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        tbody tr:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.01);
-        }
-
-        tr.completed {
-            background: rgba(0, 255, 128, 0.2);
-        }
-
-        tr.pending {
-            background: rgba(255, 0, 0, 0.2);
-        }
-
-        .action-btn {
-            padding: 10px 14px;
-            border-radius: 8px;
+        h1, h2 {
+            color: #007bff;
+            margin-bottom: 25px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 0.8s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 150px 0;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.1), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #007bff;
             color: #fff;
             text-decoration: none;
-            display: inline-block;
-            transition: 0.3s ease;
+            border-radius: 25px;
+            margin-top: 20px;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
-        .status-btn {
-            background-color: #28a745;
+        .btn:hover {
+            background: #0056b3;
+            transform: translateY(-3px);
         }
 
-        .status-btn:hover {
-            background-color: #218838;
+        .about-content, .skills-container, .education-container, .achievements-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .delete-btn {
-            background-color: #dc3545;
+        .skills-container {
+            display: grid;
+            gap: 15px;
         }
 
-        .delete-btn:hover {
-            background-color: #c82333;
+        .skill {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .update-btn {
-            background-color: #ffc107;
-            color: #000;
+        .skill span {
+            font-size: 16px;
+            color: #666;
         }
 
-        .update-btn:hover {
-            background-color: #e0a800;
+        .skill-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            width: 0;
+            transition: width 1.5s ease-out;
+        }
+
+        .skill-progress.c { background: #007bff; }
+        .skill-progress.python { background: #28a745; }
+        .skill-progress.java { background: #dc3545; }
+        .skill-progress.flutter { background: #17a2b8; }
+        .skill-progress.django { background: #ffc107; }
+        .skill-progress.html { background: #6f42c1; }
+        .skill-progress.javascript { background: #fd7e14; }
+
+        .experience-container, .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .experience-card, .project-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .experience-card:hover, .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.2);
+        }
+
+        .education-item, .achievement-item {
+            margin-bottom: 20px;
+        }
+
+        .education-item h3, .achievement-item {
+            color: #007bff;
+        }
+
+        #contact p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #contact a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #contact a:hover {
+            color: #0056b3;
+        }
+
+        .hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @media (max-width: 768px) {
-            .todo-container {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
                 padding: 20px;
+                text-align: center;
             }
 
-            th, td {
-                padding: 10px;
+            .nav-links.active {
+                display: flex;
             }
 
-            button {
+            .hero {
+                padding: 80px 0;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
                 font-size: 16px;
-                padding: 12px;
             }
         }
     </style>
 </head>
-
 <body>
-    <form method='POST' action="/add/">
-       
-        <div class="todo-container">
-            <h2>🚀 My Futuristic To-Do</h2>
-            <input type="text" placeholder="Task Title" name="title" required>
-            <textarea placeholder="Task Description" name="description" rows="4" required></textarea>
-            <label for="deadline">Deadline:</label>
-            <input type="date" name="deadline" required>
-            <button type="submit">➕ Add Task</button>
-        </div>
-    </form>
+    <header>
+        <nav>
+            <div class="logo">Taburani</div>
+            <div class="hamburger">☰</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="todo-container" style="margin-top: 40px;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Date Added</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                    <th>Delete</th>
-                    <th>Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <td><a href="/delete/{{i.id}}" class="action-btn delete-btn">Delete</a></td>
-                        <td><a href="/update/{{i.id}}" class="action-btn update-btn">Update</a></td>
-                    </tr>
-               
-            </tbody>
-        </table>
-    </div>
+    <section id="home" class="hidden">
+        <div class="hero">
+            <dotlottie-player src="https://lottie.host/6d472edd-25ff-42a8-af5d-9f70fccd1b77/M4EzYppKYE.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
+            <h1></h1>
+            <p>Full Stack Developer | IoT Enthusiast</p>
+            <a href="#experience" class="btn">View My Experience</a>
+        </div>
+    </section>
+
+    <section id="about" class="hidden">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <p>An enthusiastic final-year student with software development skills, organizational, and strong communication skills, looking for full-time roles to solve pressing problems and actively contribute to the growth of your organization.</p>
+        </div>
+    </section>
+
+    <section id="skills" class="hidden">
+        <h2>Technical Skills</h2>
+        <div class="skills-container">
+            <div class="skill">
+                <span>C</span>
+                <div class="skill-bar">
+                    <div class="skill-progress c" data-width="85%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span>Python</span>
+                <div class="skill-bar">
+                    <div class="skill-progress python" data-width="80%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span>Java</span>
+                <div class="skill-bar">
+                    <div class="skill-progress java" data-width="70%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span>Flutter/Dart</span>
+                <div class="skill-bar">
+                    <div class="skill-progress flutter" data-width="75%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span>Django</span>
+                <div class="skill-bar">
+                    <div class="skill-progress django" data-width="65%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span>HTML/CSS</span>
+                <div class="skill-bar">
+                    <div class="skill-progress html" data-width="80%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <span>JavaScript</span>
+                <div class="skill-bar">
+                    <div class="skill-progress javascript" data-width="70%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="hidden">
+        <h2>Experience</h2>
+        <div class="experience-container">
+            <div class="experience-card">
+                <h3>IoT & App Developer - Self-Initiated Project</h3>
+                <p>01/2025 – 03/2025, Visakhapatnam, India</p>
+                <p>Designed and developed an IoT-based medication dispenser using NodeMCU to improve medication compliance for elderly patients, individuals with chronic illnesses, caregivers, and those with memory impairments. Engineered an automated alert system and developed an Android app for reminders.</p>
+            </div>
+            <div class="experience-card">
+                <h3>Software Developer Intern - Recruiter Platform</h3>
+                <p>03/2024 – 07/2024, Visakhapatnam, India</p>
+                <p>Contributed to a social media-inspired job platform, designing user authentication, job posting, and project management features. Optimized backend logic and database queries for efficient job recommendations and recruitment.</p>
+            </div>
+            <div class="experience-card">
+                <h3>Embedded Systems Developer Intern - BARC</h3>
+                <p>05/2024 – 08/2024, Visakhapatnam, India</p>
+                <p>Integrated the RYS8833_Lite GPS module with STM32C0116 microcontroller for real-time GPS data parsing and storage. Developed end-to-end embedded solutions for tracking applications using STM32CubeIDE.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="hidden">
+        <h2>Projects</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <h3>Medication Compliance System</h3>
+                <p>01/2025 – 03/2025</p>
+                <p>IoT-based medicine dispenser with NodeMCU and an Android app for medication adherence.</p>
+            </div>
+            <div class="project-card">
+                <h3>Recruiter Platform – Job Matching</h3>
+                <p>03/2024 – 08/2024</p>
+                <p>Social media-inspired job board with user authentication and skill-based matching.</p>
+            </div>
+            <div class="project-card">
+                <h3>PlantNet – Smart Plant Detection</h3>
+                <p>01/2025 – 02/2025</p>
+                <p>AI-powered plant disease detection using Python and Flutter.</p>
+            </div>
+            
+            <div class="project-card">
+                <h3>SnackShop & ShopSo – E-Commerce Websites</h3>
+                <p>01/2025 – 02/2025</p>
+                <p>Customer-centric e-commerce platforms with secure payment gateways.</p>
+            </div>
+            <div class="project-card">
+                <h3>Tasty Tiffins – Web-based Restaurant</h3>
+                <p>03/2024 – 07/2024</p>
+                <p>Responsive food ordering system with Django backend.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="hidden">
+        <h2>Education</h2>
+        <div class="education-container">
+            <div class="education-item">
+                <h3>Bachelor of Technology in Electronics and Communication Engineering</h3>
+                <p>Raghu Institute of Technology, Visakhapatnam, India</p>
+                <p>11/2021 – 05/2025 | CGPA: 8.5/10</p>
+            </div>
+            <div class="education-item">
+                <h3>Intermediate (Physics, Chemistry, Mathematics)</h3>
+                <p>Narayana Junior, Visakhapatnam, India</p>
+                <p>05/2019 – 08/2021 | CGPA: 9.4/10</p>
+            </div>
+            <div class="education-item">
+                <h3>State Board</h3>
+                <p>Viswateja School, Visakhapatnam, India</p>
+                <p>2019 | CGPA: 10/10</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements" class="hidden">
+        <h2>Achievements</h2>
+        <div class="achievements-container">
+            <p class="achievement-item">Comsoc Chair and Ex-APS-Secretary in IEEE (2021-2025)</p>
+            <p class="achievement-item">Anchor for WAMS 2024 Event</p>
+            <p class="achievement-item">Won Debate Competition by Vizag Bay Section</p>
+            <p class="achievement-item">2nd Prize in Elocution Competition at SITAM University</p>
+            <p class="achievement-item">Participated in IDEATHON at JNTUK</p>
+            <p class="achievement-item">Bronze Medal in National-Level Karate Competition</p>
+        </div>
+    </section>
+
+    <section id="contact" class="hidden">
+        <h2>Contact Me</h2>
+        <p>Email: <a href="mailto:tabuyarla2808@gmail.com">Tabuyarla2808@gmail.com</a></p>
+        <p>Email: <a href="mailto:tabu@ieee.org">tabu@ieee.org</a></p>
+        <p>Mobile: +91 9652272510</p>
+        <p>LinkedIn: <a href="https://rb.gy/nqy84l" target="_blank">Taburani Yarla</a></p>
+        <p>GitHub: <a href="https://github.com/tabuyarla" target="_blank">tabuyarla</a></p>
+    </section>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        const heroText = "Hello, I'm Taburani Yarla";
+        const heroElement = document.querySelector('.hero h1');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < heroText.length) {
+                heroElement.textContent += heroText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+
+        heroElement.textContent = '';
+        window.addEventListener('load', typeWriter);
+
+        const skillProgress = document.querySelectorAll('.skill-progress');
+        window.addEventListener('scroll', () => {
+            skillProgress.forEach(progress => {
+                const rect = progress.getBoundingClientRect();
+                if (rect.top < window.innerHeight && !progress.classList.contains('animated')) {
+                    progress.style.width = progress.getAttribute('data-width');
+                    progress.classList.add('animated');
+                }
+            });
+        });
+
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            section.classList.add('hidden');
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
